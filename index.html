@@ -190,9 +190,10 @@
         .modal {
             background: var(--card-bg); padding: 25px; border-radius: 12px; width: 90%; max-width: 450px; max-height: 90vh; overflow-y: auto; color:var(--text-color); border:1px solid var(--border-color);
         }
-        .modal input, .modal select, .modal button {
-            width: 100%; margin-top: 10px; padding: 10px; border-radius: 6px; border: 1px solid var(--border-color); background: var(--container-bg); color:var(--text-color);
+        .modal input, .modal select, .modal button, .modal textarea {
+            width: 100%; margin-top: 10px; padding: 10px; border-radius: 6px; border: 1px solid var(--border-color); background: var(--container-bg); color:var(--text-color); font-family: inherit;
         }
+        .modal textarea { resize: vertical; }
         
         .modal h3 { margin-bottom: 15px;}
         .close-btn-inline { background: red !important; color: white; margin-top: 15px;}
@@ -306,6 +307,8 @@
                 <input type="tel" id="item-phone" placeholder="Phone Number for Dialing pad">
                 <input type="text" id="item-web" placeholder="Your Website link (Leave Blank if None)">
                 <input type="text" id="item-map" placeholder="Your specific area or location name...">
+                <!-- Added Bio Option -->
+                <textarea id="item-bio" placeholder="Bio / Short Description (Optional)" rows="3"></textarea>
             </div>
 
             <button class="btn" style="background:var(--primary); font-weight: bold; margin-top: 15px;" onclick="saveEditData()">💾 Commit & Save Settings</button>
@@ -360,7 +363,7 @@
                     },
                     {
                         id: "item3_def", type: "contact", title: "Site Contact Info", hidden: false, 
-                        imgSrc: "https://www.w3schools.com/howto/img_avatar.png", phone: "+911234567890", websiteLink: "https://google.com", locationDesc: "Mumbai Central",
+                        imgSrc: "https://www.w3schools.com/howto/img_avatar.png", phone: "+911234567890", websiteLink: "https://google.com", locationDesc: "Mumbai Central", bio: "Available 24/7 for support and queries.",
                         children:[]
                     }
                 ]
@@ -475,12 +478,19 @@
                     if(cChildObjectRefCurrentNavDirPosIterSetupListCurrentElementIterVarLoopArrNumObj.websiteLink) internalComponentsHTMLRefLinksButtonGenTextMapLinkVariablesOptionsRef += `<a href="${cChildObjectRefCurrentNavDirPosIterSetupListCurrentElementIterVarLoopArrNumObj.websiteLink.startsWith('http')?cChildObjectRefCurrentNavDirPosIterSetupListCurrentElementIterVarLoopArrNumObj.websiteLink:'https://'+cChildObjectRefCurrentNavDirPosIterSetupListCurrentElementIterVarLoopArrNumObj.websiteLink}" target="_blank" class="action-link web-link" onclick="event.stopPropagation()">🌐 Website Go</a>`;
                     if(cChildObjectRefCurrentNavDirPosIterSetupListCurrentElementIterVarLoopArrNumObj.locationDesc) internalComponentsHTMLRefLinksButtonGenTextMapLinkVariablesOptionsRef += `<a href="https://maps.google.com/?q=${encodeURIComponent(cChildObjectRefCurrentNavDirPosIterSetupListCurrentElementIterVarLoopArrNumObj.locationDesc)}" target="_blank" class="action-link map-link" onclick="event.stopPropagation()">📍 Location Go</a>`;
                     
+                    // Added Optional Bio Logic Render Map - No extra space if blank
+                    let bioRenderHtmlDataExtContextStr = "";
+                    if(cChildObjectRefCurrentNavDirPosIterSetupListCurrentElementIterVarLoopArrNumObj.bio && cChildObjectRefCurrentNavDirPosIterSetupListCurrentElementIterVarLoopArrNumObj.bio.trim() !== "") {
+                        bioRenderHtmlDataExtContextStr = `<div class="contact-bio" style="font-size:14px; margin-top:8px; opacity:0.85; white-space:pre-wrap;">${escapeHTML(cChildObjectRefCurrentNavDirPosIterSetupListCurrentElementIterVarLoopArrNumObj.bio)}</div>`;
+                    }
+
                     buildObjectDynamicLayoutMapConfigSetupLayerLogicStringVariablesSetupModGenSysMapText += `
                         <div class="type-contact">
                            <div class="contact-header">
                               <img src="${cChildObjectRefCurrentNavDirPosIterSetupListCurrentElementIterVarLoopArrNumObj.imgSrc || 'https://cdn.pixabay.com/photo/2015/10/05/22/37/blank-profile-picture-973460_960_720.png'}" alt="img_item" class="contact-img" onclick="showPictureFullScreenImageTapCallSystemLogicHookOverrideFuncParamEventLogicStopFlowControlPropLogic(event, this.src)">
                               <div class="contact-name">${escapeHTML(cChildObjectRefCurrentNavDirPosIterSetupListCurrentElementIterVarLoopArrNumObj.title)}</div>
                            </div>
+                           ${bioRenderHtmlDataExtContextStr}
                            <div class="contact-actions">${internalComponentsHTMLRefLinksButtonGenTextMapLinkVariablesOptionsRef}</div>
                         </div>`;
                 }
@@ -665,6 +675,7 @@
              document.getElementById('item-phone').value = "";
              document.getElementById('item-web').value = "";
              document.getElementById('item-map').value = "";
+             document.getElementById('item-bio').value = ""; // Added reset Bio
              adjustEditForm();
              document.getElementById('modal-edit').style.display='flex';
         }
@@ -682,6 +693,7 @@
              document.getElementById('item-phone').value = extractionReferenceSettingsContextNodeCurrentObjectTargetFormValueExtractDataSystemVal.phone || '';
              document.getElementById('item-web').value = extractionReferenceSettingsContextNodeCurrentObjectTargetFormValueExtractDataSystemVal.websiteLink || '';
              document.getElementById('item-map').value = extractionReferenceSettingsContextNodeCurrentObjectTargetFormValueExtractDataSystemVal.locationDesc || '';
+             document.getElementById('item-bio').value = extractionReferenceSettingsContextNodeCurrentObjectTargetFormValueExtractDataSystemVal.bio || ''; // Added fetch Bio
 
              adjustEditForm();
              document.getElementById('modal-edit').style.display='flex';
@@ -706,6 +718,7 @@
                  modDataToolSetupContextMapExtSetupParamMapNewConfigSystemOptionSetObjMapDataSetupModOptionsDataStructVarFormFormatSetupObj.phone = document.getElementById('item-phone').value;
                  modDataToolSetupContextMapExtSetupParamMapNewConfigSystemOptionSetObjMapDataSetupModOptionsDataStructVarFormFormatSetupObj.websiteLink = document.getElementById('item-web').value;
                  modDataToolSetupContextMapExtSetupParamMapNewConfigSystemOptionSetObjMapDataSetupModOptionsDataStructVarFormFormatSetupObj.locationDesc = document.getElementById('item-map').value;
+                 modDataToolSetupContextMapExtSetupParamMapNewConfigSystemOptionSetObjMapDataSetupModOptionsDataStructVarFormFormatSetupObj.bio = document.getElementById('item-bio').value; // Added Save Bio Context
             }
 
             if(hasExistEditIdentityKeySystemToolModFlagActionCheckSystemObjEditIdVarUpdateExtSetToolSysOptIDTargetKeyStrIDIdentifierUpdateTarget) { 
@@ -716,6 +729,7 @@
                 sysExtractionLocationTargetExtSetOpRefTargetUpdateExtLayerValContextTargetTargetObjNodeSysIdentExtSet.phone = modDataToolSetupContextMapExtSetupParamMapNewConfigSystemOptionSetObjMapDataSetupModOptionsDataStructVarFormFormatSetupObj.phone;
                 sysExtractionLocationTargetExtSetOpRefTargetUpdateExtLayerValContextTargetTargetObjNodeSysIdentExtSet.websiteLink = modDataToolSetupContextMapExtSetupParamMapNewConfigSystemOptionSetObjMapDataSetupModOptionsDataStructVarFormFormatSetupObj.websiteLink;
                 sysExtractionLocationTargetExtSetOpRefTargetUpdateExtLayerValContextTargetTargetObjNodeSysIdentExtSet.locationDesc = modDataToolSetupContextMapExtSetupParamMapNewConfigSystemOptionSetObjMapDataSetupModOptionsDataStructVarFormFormatSetupObj.locationDesc;
+                sysExtractionLocationTargetExtSetOpRefTargetUpdateExtLayerValContextTargetTargetObjNodeSysIdentExtSet.bio = modDataToolSetupContextMapExtSetupParamMapNewConfigSystemOptionSetObjMapDataSetupModOptionsDataStructVarFormFormatSetupObj.bio; // Update Bio Mapping
             } else { 
                 modDataToolSetupContextMapExtSetupParamMapNewConfigSystemOptionSetObjMapDataSetupModOptionsDataStructVarFormFormatSetupObj.id = "sys_entry_" + Date.now();
                 modDataToolSetupContextMapExtSetupParamMapNewConfigSystemOptionSetObjMapDataSetupModOptionsDataStructVarFormFormatSetupObj.hidden = false;
