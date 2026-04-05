@@ -309,6 +309,11 @@
                 <input type="text" id="item-map" placeholder="Your specific area or location name...">
                 <!-- Added Bio Option -->
                 <textarea id="item-bio" placeholder="Bio / Short Description (Optional)" rows="3"></textarea>
+
+                <!-- ADDITIONAL EXTRA GALLERY IMAGE GENERATION AND TRACKING ARRAY MAPPING MOD LOGIC INJECT HERE -->
+                <label style="display:block; margin-top:15px; margin-bottom:5px; font-weight: bold; font-size: 14px; border-top: 1px dashed var(--border-color); padding-top:10px;">Additional Media Images Gallery:</label>
+                <div id="contact-gallery-container" style="display: flex; flex-direction: column; gap: 8px;"></div>
+                <button type="button" class="btn" style="background:#3b82f6; width:auto; font-size:12px; margin-top:8px; padding: 6px 12px;" onclick="addGalleryImageInput('')">➕ Add Image Link Form Box</button>
             </div>
 
             <button class="btn" style="background:var(--primary); font-weight: bold; margin-top: 15px;" onclick="saveEditData()">💾 Commit & Save Settings</button>
@@ -364,6 +369,7 @@
                     {
                         id: "item3_def", type: "contact", title: "Site Contact Info", hidden: false, 
                         imgSrc: "https://www.w3schools.com/howto/img_avatar.png", phone: "+911234567890", websiteLink: "https://google.com", locationDesc: "Mumbai Central", bio: "Available 24/7 for support and queries.",
+                        galleryImages: ["https://cdn.pixabay.com/photo/2014/12/27/15/34/office-581131_1280.jpg"], // System template generated placeholder mapping
                         children:[]
                     }
                 ]
@@ -478,10 +484,17 @@
                     if(cChildObjectRefCurrentNavDirPosIterSetupListCurrentElementIterVarLoopArrNumObj.websiteLink) internalComponentsHTMLRefLinksButtonGenTextMapLinkVariablesOptionsRef += `<a href="${cChildObjectRefCurrentNavDirPosIterSetupListCurrentElementIterVarLoopArrNumObj.websiteLink.startsWith('http')?cChildObjectRefCurrentNavDirPosIterSetupListCurrentElementIterVarLoopArrNumObj.websiteLink:'https://'+cChildObjectRefCurrentNavDirPosIterSetupListCurrentElementIterVarLoopArrNumObj.websiteLink}" target="_blank" class="action-link web-link" onclick="event.stopPropagation()">🌐 Website Go</a>`;
                     if(cChildObjectRefCurrentNavDirPosIterSetupListCurrentElementIterVarLoopArrNumObj.locationDesc) internalComponentsHTMLRefLinksButtonGenTextMapLinkVariablesOptionsRef += `<a href="https://maps.google.com/?q=${encodeURIComponent(cChildObjectRefCurrentNavDirPosIterSetupListCurrentElementIterVarLoopArrNumObj.locationDesc)}" target="_blank" class="action-link map-link" onclick="event.stopPropagation()">📍 Location Go</a>`;
                     
-                    // Added Optional Bio Logic Render Map - No extra space if blank
+                    // Optional Bio Logic Render Map 
                     let bioRenderHtmlDataExtContextStr = "";
                     if(cChildObjectRefCurrentNavDirPosIterSetupListCurrentElementIterVarLoopArrNumObj.bio && cChildObjectRefCurrentNavDirPosIterSetupListCurrentElementIterVarLoopArrNumObj.bio.trim() !== "") {
                         bioRenderHtmlDataExtContextStr = `<div class="contact-bio" style="font-size:14px; margin-top:8px; opacity:0.85; white-space:pre-wrap;">${escapeHTML(cChildObjectRefCurrentNavDirPosIterSetupListCurrentElementIterVarLoopArrNumObj.bio)}</div>`;
+                    }
+
+                    // Dynamically map Optional Render array variable list logic building system component block execution path UI logic block injection!
+                    let galleryRenderStrMappingHtmlBuilderGenSysRefVar = "";
+                    if(cChildObjectRefCurrentNavDirPosIterSetupListCurrentElementIterVarLoopArrNumObj.galleryImages && cChildObjectRefCurrentNavDirPosIterSetupListCurrentElementIterVarLoopArrNumObj.galleryImages.length > 0){
+                         let genHTMLGalleryExtSystemTargetStringValList = cChildObjectRefCurrentNavDirPosIterSetupListCurrentElementIterVarLoopArrNumObj.galleryImages.map(img => `<img src="${escapeHTML(img)}" style="width: 80px; height: 80px; object-fit: cover; border-radius: 6px; border: 1px solid var(--border-color); cursor:pointer; background:#000;" onclick="showPictureFullScreenImageTapCallSystemLogicHookOverrideFuncParamEventLogicStopFlowControlPropLogic(event, this.src)" alt="Gallery Extra Media">`).join('');
+                         galleryRenderStrMappingHtmlBuilderGenSysRefVar = `<div class="contact-gallery-imgs-list" style="display:flex; flex-wrap:wrap; gap:8px; margin-top:12px;">${genHTMLGalleryExtSystemTargetStringValList}</div>`;
                     }
 
                     buildObjectDynamicLayoutMapConfigSetupLayerLogicStringVariablesSetupModGenSysMapText += `
@@ -491,7 +504,8 @@
                               <div class="contact-name">${escapeHTML(cChildObjectRefCurrentNavDirPosIterSetupListCurrentElementIterVarLoopArrNumObj.title)}</div>
                            </div>
                            ${bioRenderHtmlDataExtContextStr}
-                           <div class="contact-actions">${internalComponentsHTMLRefLinksButtonGenTextMapLinkVariablesOptionsRef}</div>
+                           ${galleryRenderStrMappingHtmlBuilderGenSysRefVar}
+                           <div class="contact-actions" style="${galleryRenderStrMappingHtmlBuilderGenSysRefVar!=='' ? 'margin-top:12px;' : ''}">${internalComponentsHTMLRefLinksButtonGenTextMapLinkVariablesOptionsRef}</div>
                         </div>`;
                 }
 
@@ -538,6 +552,38 @@
              document.getElementById('fullscreen-img-overlay').style.display = 'flex';
         }
         
+        // Dynamic Input Logic Addition function rendering inline inputs loop container config format options tools drop map!
+        function addGalleryImageInput(targetExtractValLoadInputStateStringLinkExt = ''){
+             let wrapperDivSystemElTargetScopeLayerOptRenderNodeGenMethodCallHTMLRootDOMData = document.createElement("div");
+             wrapperDivSystemElTargetScopeLayerOptRenderNodeGenMethodCallHTMLRootDOMData.style.display = "flex";
+             wrapperDivSystemElTargetScopeLayerOptRenderNodeGenMethodCallHTMLRootDOMData.style.gap = "8px";
+             wrapperDivSystemElTargetScopeLayerOptRenderNodeGenMethodCallHTMLRootDOMData.style.alignItems = "center";
+             
+             let textInpElNodeGenToolStrSysValTargetDomStringOptLocRenderDataValFormatVarStrTargetSetupDirSystemRefFormOption = document.createElement("input");
+             textInpElNodeGenToolStrSysValTargetDomStringOptLocRenderDataValFormatVarStrTargetSetupDirSystemRefFormOption.type = "text";
+             textInpElNodeGenToolStrSysValTargetDomStringOptLocRenderDataValFormatVarStrTargetSetupDirSystemRefFormOption.placeholder = "Media Image Link Format...";
+             textInpElNodeGenToolStrSysValTargetDomStringOptLocRenderDataValFormatVarStrTargetSetupDirSystemRefFormOption.value = targetExtractValLoadInputStateStringLinkExt;
+             textInpElNodeGenToolStrSysValTargetDomStringOptLocRenderDataValFormatVarStrTargetSetupDirSystemRefFormOption.className = "gallery-img-collector-tag";
+             textInpElNodeGenToolStrSysValTargetDomStringOptLocRenderDataValFormatVarStrTargetSetupDirSystemRefFormOption.style.flex = "1";
+             textInpElNodeGenToolStrSysValTargetDomStringOptLocRenderDataValFormatVarStrTargetSetupDirSystemRefFormOption.style.marginTop = "0";
+
+             let removeToolBtnOptElTargetScopeSysStrLayerDirFormatDataLocPathSysObjOptionActionMethodClickDropEventDomSystemNodeDropStrVarActionOpRefLayerTargetSystemOptionRenderLocRefNodeObj = document.createElement("button");
+             removeToolBtnOptElTargetScopeSysStrLayerDirFormatDataLocPathSysObjOptionActionMethodClickDropEventDomSystemNodeDropStrVarActionOpRefLayerTargetSystemOptionRenderLocRefNodeObj.type = "button";
+             removeToolBtnOptElTargetScopeSysStrLayerDirFormatDataLocPathSysObjOptionActionMethodClickDropEventDomSystemNodeDropStrVarActionOpRefLayerTargetSystemOptionRenderLocRefNodeObj.innerText = "❌";
+             removeToolBtnOptElTargetScopeSysStrLayerDirFormatDataLocPathSysObjOptionActionMethodClickDropEventDomSystemNodeDropStrVarActionOpRefLayerTargetSystemOptionRenderLocRefNodeObj.className = "btn close-btn-inline";
+             removeToolBtnOptElTargetScopeSysStrLayerDirFormatDataLocPathSysObjOptionActionMethodClickDropEventDomSystemNodeDropStrVarActionOpRefLayerTargetSystemOptionRenderLocRefNodeObj.style.marginTop = "0";
+             removeToolBtnOptElTargetScopeSysStrLayerDirFormatDataLocPathSysObjOptionActionMethodClickDropEventDomSystemNodeDropStrVarActionOpRefLayerTargetSystemOptionRenderLocRefNodeObj.style.width = "auto";
+             removeToolBtnOptElTargetScopeSysStrLayerDirFormatDataLocPathSysObjOptionActionMethodClickDropEventDomSystemNodeDropStrVarActionOpRefLayerTargetSystemOptionRenderLocRefNodeObj.style.padding = "10px";
+             removeToolBtnOptElTargetScopeSysStrLayerDirFormatDataLocPathSysObjOptionActionMethodClickDropEventDomSystemNodeDropStrVarActionOpRefLayerTargetSystemOptionRenderLocRefNodeObj.onclick = function() {
+                 wrapperDivSystemElTargetScopeLayerOptRenderNodeGenMethodCallHTMLRootDOMData.remove();
+             }
+             
+             wrapperDivSystemElTargetScopeLayerOptRenderNodeGenMethodCallHTMLRootDOMData.appendChild(textInpElNodeGenToolStrSysValTargetDomStringOptLocRenderDataValFormatVarStrTargetSetupDirSystemRefFormOption);
+             wrapperDivSystemElTargetScopeLayerOptRenderNodeGenMethodCallHTMLRootDOMData.appendChild(removeToolBtnOptElTargetScopeSysStrLayerDirFormatDataLocPathSysObjOptionActionMethodClickDropEventDomSystemNodeDropStrVarActionOpRefLayerTargetSystemOptionRenderLocRefNodeObj);
+             
+             document.getElementById('contact-gallery-container').appendChild(wrapperDivSystemElTargetScopeLayerOptRenderNodeGenMethodCallHTMLRootDOMData);
+        }
+
         // Modal & Host Security Functions Suite 
         function openLogin() {
             if(!hostAuthorized) document.getElementById('modal-login').style.display='flex';
@@ -572,7 +618,6 @@
             document.getElementById('btn-logout').classList.add('hidden');
             loadUiNodeCurrentPageLevelView();
         }
-
 
         // SEARCH FILTRATION SYSTEM INSIDE "MOVE" MODAL MENU FORM DROP LIST!
         function filterMoveLocs() {
@@ -656,8 +701,6 @@
             closeModal('modal-move-folder-loc');
         }
 
-
-
         /* --- HOST CREATION EDITOR --- */
         function adjustEditForm() {
              let selectionModeOptionsToolSetExt= document.getElementById('item-type').value;
@@ -675,7 +718,11 @@
              document.getElementById('item-phone').value = "";
              document.getElementById('item-web').value = "";
              document.getElementById('item-map').value = "";
-             document.getElementById('item-bio').value = ""; // Added reset Bio
+             document.getElementById('item-bio').value = ""; 
+             
+             // System Wipe Setup Node Container Elements Reconfig Reset Ext Drop Method Call Location Context Dir Layer Node Form Wipe Loc!
+             document.getElementById('contact-gallery-container').innerHTML = ""; 
+             
              adjustEditForm();
              document.getElementById('modal-edit').style.display='flex';
         }
@@ -693,7 +740,15 @@
              document.getElementById('item-phone').value = extractionReferenceSettingsContextNodeCurrentObjectTargetFormValueExtractDataSystemVal.phone || '';
              document.getElementById('item-web').value = extractionReferenceSettingsContextNodeCurrentObjectTargetFormValueExtractDataSystemVal.websiteLink || '';
              document.getElementById('item-map').value = extractionReferenceSettingsContextNodeCurrentObjectTargetFormValueExtractDataSystemVal.locationDesc || '';
-             document.getElementById('item-bio').value = extractionReferenceSettingsContextNodeCurrentObjectTargetFormValueExtractDataSystemVal.bio || ''; // Added fetch Bio
+             document.getElementById('item-bio').value = extractionReferenceSettingsContextNodeCurrentObjectTargetFormValueExtractDataSystemVal.bio || ''; 
+             
+             // Rehydrating map gallery structure interface DOM Setup Tool Gen Context Build Route Format System String Target Drop Nodes Opts Map Mod Set Form Builder Gen Build Ref Dir Set Call Target Load Link Arr Form Gen Map Path Context Ext Route Mod Load Nodes Var Opt 
+             document.getElementById('contact-gallery-container').innerHTML = ''; 
+             if(extractionReferenceSettingsContextNodeCurrentObjectTargetFormValueExtractDataSystemVal.galleryImages){
+                  for(let mapRenderURLReferenceDataValExtractorGenSystemValLinkFormatObjectRouteListToolsListArrayVarNodeSetupFormatExtStrListMethodConfigDataArrayValOptionSystemDataFormatSetupMethodFormatIntPathLocationListLayerStrRefLocOp of extractionReferenceSettingsContextNodeCurrentObjectTargetFormValueExtractDataSystemVal.galleryImages){
+                       addGalleryImageInput(mapRenderURLReferenceDataValExtractorGenSystemValLinkFormatObjectRouteListToolsListArrayVarNodeSetupFormatExtStrListMethodConfigDataArrayValOptionSystemDataFormatSetupMethodFormatIntPathLocationListLayerStrRefLocOp);
+                  }
+             }
 
              adjustEditForm();
              document.getElementById('modal-edit').style.display='flex';
@@ -718,7 +773,18 @@
                  modDataToolSetupContextMapExtSetupParamMapNewConfigSystemOptionSetObjMapDataSetupModOptionsDataStructVarFormFormatSetupObj.phone = document.getElementById('item-phone').value;
                  modDataToolSetupContextMapExtSetupParamMapNewConfigSystemOptionSetObjMapDataSetupModOptionsDataStructVarFormFormatSetupObj.websiteLink = document.getElementById('item-web').value;
                  modDataToolSetupContextMapExtSetupParamMapNewConfigSystemOptionSetObjMapDataSetupModOptionsDataStructVarFormFormatSetupObj.locationDesc = document.getElementById('item-map').value;
-                 modDataToolSetupContextMapExtSetupParamMapNewConfigSystemOptionSetObjMapDataSetupModOptionsDataStructVarFormFormatSetupObj.bio = document.getElementById('item-bio').value; // Added Save Bio Context
+                 modDataToolSetupContextMapExtSetupParamMapNewConfigSystemOptionSetObjMapDataSetupModOptionsDataStructVarFormFormatSetupObj.bio = document.getElementById('item-bio').value; 
+                 
+                 // System Extra Media Nodes String Location Context Store Mapping Layer Location Ext Route Opt Op Loc Config Tool Arr Extract List Path 
+                 let finalStringArrayCompilerToolMapStoreValSystemArrNodesExtractValOpTargetSetupOptLayerDropMethod= [];
+                 let htmlListOptionDomLinkCollectorNodeExtRefDOMListScopeInputsVarFormatToolsDropMapSysArrPathMapVarExtOptionsListToolsStoreLayerLocListMethodGenTargetOptionOpDataSetupOptSystemDataOptDirPathOptions= document.querySelectorAll('.gallery-img-collector-tag');
+                 
+                 for(let nodeDomElExtractorRefSetupVarGenLocMethodStrExtractVarOpToolLinkDropStrStringOptionsRefVarSysConfigLocationLinkDataFormTargetExtOptDropStoreVarDropOpActionNodeConfigLinkDataValDropListToolsLayerOptionDataArrSystemLocMapIntArrSystemOp of htmlListOptionDomLinkCollectorNodeExtRefDOMListScopeInputsVarFormatToolsDropMapSysArrPathMapVarExtOptionsListToolsStoreLayerLocListMethodGenTargetOptionOpDataSetupOptSystemDataOptDirPathOptions){
+                      if(nodeDomElExtractorRefSetupVarGenLocMethodStrExtractVarOpToolLinkDropStrStringOptionsRefVarSysConfigLocationLinkDataFormTargetExtOptDropStoreVarDropOpActionNodeConfigLinkDataValDropListToolsLayerOptionDataArrSystemLocMapIntArrSystemOp.value.trim().length > 0) {
+                           finalStringArrayCompilerToolMapStoreValSystemArrNodesExtractValOpTargetSetupOptLayerDropMethod.push(nodeDomElExtractorRefSetupVarGenLocMethodStrExtractVarOpToolLinkDropStrStringOptionsRefVarSysConfigLocationLinkDataFormTargetExtOptDropStoreVarDropOpActionNodeConfigLinkDataValDropListToolsLayerOptionDataArrSystemLocMapIntArrSystemOp.value.trim());
+                      }
+                 }
+                 modDataToolSetupContextMapExtSetupParamMapNewConfigSystemOptionSetObjMapDataSetupModOptionsDataStructVarFormFormatSetupObj.galleryImages = finalStringArrayCompilerToolMapStoreValSystemArrNodesExtractValOpTargetSetupOptLayerDropMethod;
             }
 
             if(hasExistEditIdentityKeySystemToolModFlagActionCheckSystemObjEditIdVarUpdateExtSetToolSysOptIDTargetKeyStrIDIdentifierUpdateTarget) { 
@@ -729,7 +795,8 @@
                 sysExtractionLocationTargetExtSetOpRefTargetUpdateExtLayerValContextTargetTargetObjNodeSysIdentExtSet.phone = modDataToolSetupContextMapExtSetupParamMapNewConfigSystemOptionSetObjMapDataSetupModOptionsDataStructVarFormFormatSetupObj.phone;
                 sysExtractionLocationTargetExtSetOpRefTargetUpdateExtLayerValContextTargetTargetObjNodeSysIdentExtSet.websiteLink = modDataToolSetupContextMapExtSetupParamMapNewConfigSystemOptionSetObjMapDataSetupModOptionsDataStructVarFormFormatSetupObj.websiteLink;
                 sysExtractionLocationTargetExtSetOpRefTargetUpdateExtLayerValContextTargetTargetObjNodeSysIdentExtSet.locationDesc = modDataToolSetupContextMapExtSetupParamMapNewConfigSystemOptionSetObjMapDataSetupModOptionsDataStructVarFormFormatSetupObj.locationDesc;
-                sysExtractionLocationTargetExtSetOpRefTargetUpdateExtLayerValContextTargetTargetObjNodeSysIdentExtSet.bio = modDataToolSetupContextMapExtSetupParamMapNewConfigSystemOptionSetObjMapDataSetupModOptionsDataStructVarFormFormatSetupObj.bio; // Update Bio Mapping
+                sysExtractionLocationTargetExtSetOpRefTargetUpdateExtLayerValContextTargetTargetObjNodeSysIdentExtSet.bio = modDataToolSetupContextMapExtSetupParamMapNewConfigSystemOptionSetObjMapDataSetupModOptionsDataStructVarFormFormatSetupObj.bio; 
+                sysExtractionLocationTargetExtSetOpRefTargetUpdateExtLayerValContextTargetTargetObjNodeSysIdentExtSet.galleryImages = modDataToolSetupContextMapExtSetupParamMapNewConfigSystemOptionSetObjMapDataSetupModOptionsDataStructVarFormFormatSetupObj.galleryImages; // Apply mapped dynamic multiple links format object save routine override!
             } else { 
                 modDataToolSetupContextMapExtSetupParamMapNewConfigSystemOptionSetObjMapDataSetupModOptionsDataStructVarFormFormatSetupObj.id = "sys_entry_" + Date.now();
                 modDataToolSetupContextMapExtSetupParamMapNewConfigSystemOptionSetObjMapDataSetupModOptionsDataStructVarFormFormatSetupObj.hidden = false;
@@ -801,6 +868,7 @@
         window.adjustEditForm = adjustEditForm;
         window.saveEditData = saveEditData;
         window.forwardLayer = forwardLayer;
+        window.addGalleryImageInput = addGalleryImageInput;
         window.showPictureFullScreenImageTapCallSystemLogicHookOverrideFuncParamEventLogicStopFlowControlPropLogic = showPictureFullScreenImageTapCallSystemLogicHookOverrideFuncParamEventLogicStopFlowControlPropLogic;
         window.relocateSequenceValElemDownObjFunctionSysMoveValSystemLogicFlowMethodDirectionArrow = relocateSequenceValElemDownObjFunctionSysMoveValSystemLogicFlowMethodDirectionArrow;
         window.relocateSequenceValElemUpObjFunctionSysMoveValSystemLogicFlowMethodDirectionArrow = relocateSequenceValElemUpObjFunctionSysMoveValSystemLogicFlowMethodDirectionArrow;
